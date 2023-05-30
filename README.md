@@ -9,6 +9,7 @@ Toggle terminal in neovim
 ## Available functions
 - `setup`
 - `toggle`: function that gets called to toggle terminal. Same one used in `opts.key`
+- `start_command`: which command should be run when there is no precedent buffer to switch to? default is `intro`
 
 ## Examples
 Set up for lazy:
@@ -16,7 +17,10 @@ Set up for lazy:
 return {
     'grecodavide/toggleterm.nvim',
     config = function()
-        require("toggleterm").setup({key = '<C-t>'})
+        require("toggleterm").setup({
+            key = '<C-t>',
+            start_command = 'Alpha'
+        })
     end
 }
 ```
