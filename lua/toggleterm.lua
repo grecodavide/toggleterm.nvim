@@ -12,7 +12,7 @@ local function contains(tbl, val)
     return false
 end
 
-M.toggle = function ()
+M.toggle = function (start_command)
     local bufnrs = vim.api.nvim_list_bufs()
 
     if not contains(bufnrs, _G.TERMBUF) then
@@ -21,7 +21,12 @@ M.toggle = function ()
         _G.TERMBUF = vim.api.nvim_get_current_buf()
         vim.api.nvim_command("startinsert")
     elseif _G.TERMOPEN then
-        pcall(vim.api.nvim_command, "buffer #")
+        if vim.fn.expand('#') == "" then
+            start_command = start_command or "intro"
+            vim.api.nvim_command(start_command)
+        else
+            vim.api.nvim_command("buffer #")
+        end
     else
         vim.api.nvim_set_current_buf(_G.TERMBUF)
     end
@@ -43,7 +48,7 @@ M.setup = function(opts)
     end
 
     if opts.key ~= nil then
-        vim.keymap.set({'n', 't'}, opts.key, function () return M.toggle() end, {noremap = true, silent = true, desc = 'Toggle term'})
+        vim.keymap.set({'n', 't'}, opts.key, function () return M.toggle(opts.start_command) end, {noremap = true, silent = true, desc = 'Toggle term'})
     end
 
 end
