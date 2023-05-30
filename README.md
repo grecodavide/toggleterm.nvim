@@ -12,7 +12,7 @@ Toggle terminal in neovim
 
 ## Examples
 Set up for lazy:
-```
+```lua
 return {
     'grecodavide/toggleterm.nvim',
     config = function()
